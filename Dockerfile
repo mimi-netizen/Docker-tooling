@@ -12,7 +12,6 @@ RUN <<-EOF
  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 EOF
 COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
-# COPY start-apache /usr/local/bin
 RUN a2enmod rewrite
 
 # Copy application source
