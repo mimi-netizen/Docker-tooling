@@ -31,10 +31,10 @@ Use toolingdb;
 --
 
 CREATE TABLE `environments` (
-  `id` int(50) NOT NULL,
-  `environment_type` varchar(50) NOT NULL,
-  `environment_name` varchar(50) NOT NULL,
-  `ip_address` varchar(50) NOT NULL
+  `id` int(40) NOT NULL,
+  `environment_type` varchar(40) NOT NULL,
+  `environment_name` varchar(40) NOT NULL,
+  `ip_address` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -110,10 +110,10 @@ INSERT INTO `tools` (`id`, `tool_name`, `tool_type`, `url`, `image`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(50) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL
+  `id` int(30) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

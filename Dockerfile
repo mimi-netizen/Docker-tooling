@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:8-apache
 
 ENV MYSQL_IP=$MYSQL_IP
 ENV MYSQL_USER=$MYSQL_USER

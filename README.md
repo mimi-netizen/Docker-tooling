@@ -4,13 +4,13 @@
 
 ## Introduction
 
-This is a Dockerfile to build a debian based container image running nginx and php-fpm 7.3.x / 7.2.x / 7.1.x / 7.0.x & Composer.
+This is a Dockerfile to build a debian based container image running nginx and php-fpm 8.3.x / 8.2.x / 8.1.x / 8.0.x & Composer.
 
 ### Versioning
 
 | Docker Tag | GitHub Release | Nginx Version | PHP Version | Debian Version |
 |-----|-------|-----|--------|--------|
-| latest | master Branch |1.17.2 | 7.3.8 | buster |
+| latest | master Branch |1.17.2 | 8 | slim |
 
 ## How to use this repository
 
