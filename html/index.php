@@ -80,10 +80,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6 one-half img-sec" style="background-image: url('images/africa-officer-employ 1.png');background-size: cover!important; background-repeat: no-repeat;">
+				<div class="col-md-6 one-half img-sec" style="background-image: url('images/africa-officer-employ.png');background-size:cover!important; background-repeat: no-repeat;">
 					<div class="img-overlay" >
 						<div class="content">
-							<img class="logo-img" src="images/logo.png" alt="" >
+							<img class="logo-img" src="images/white-logo.png" alt="" >
 							<p>Devops Tooling Website</p>
 						</div>
 						 
