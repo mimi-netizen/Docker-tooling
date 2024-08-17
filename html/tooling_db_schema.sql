@@ -110,10 +110,10 @@ INSERT INTO `tools` (`id`, `tool_name`, `tool_type`, `url`, `image`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(30) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `id` int(60) NOT NULL,
+  `username` varchar(60) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -121,19 +121,40 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
-(19, 'amruta', 'amruta@gmail.com', 'amruta'),
-(20, 'Test', 'test@gmail.com', '12345'),
-(21, 'Abc', 'abc@gmail.com', 'abc'),
-(22, 'ss', 's@gmail.com', 'ss'),
-(23, 'aa', 'a@gmail.com', 'aa'),
-(24, 'qq', 'q@gmail.com', 'q'),
-(25, 't', 't@gmail.com', 't'),
-(26, 'hhh', 'h@gmail.com', 'h'),
-(27, 's', 'tesst@gmail.com', '12345'),
-(28, 'Test43', 'test2235@gmail.com', '12345'),
-(29, 'PP', 'PP@gmail.com', '12345'),
-(31, 'Test2', 'test2@gmail.com', 'test'),
-(35, 'Webdev', 'web@gmail.com', 'web');
+(1, 'john.doe', 'john.doe@mycompany.com', 'jD8!s3cret'),
+(2, 'jane.smith', 'jane.smith@mycompany.com', 'J@n3Smitt'),
+(3, 'michael.jones', 'michael.jones@mycompany.com', 'M1cha3l$'),
+(4, 'sarah.lee', 'sarah.lee@mycompany.com', 'S@r4hRocks'),
+(5, 'david.miller', 'david.miller@mycompany.com', 'D4v1dm0n'),
+(6, 'kimberly.williams', 'kimberly.williams@mycompany.com', 'K1mb3rly!'),
+(7, 'matthew.brown', 'matthew.brown@mycompany.com', 'M@ttBrown'),
+(8, 'ashley.thomas', 'ashley.thomas@mycompany.com', 'Ash_T0mmy'),
+(9, 'james.garcia', 'james.garcia@mycompany.com', 'J4m3s_G!'),
+(10, 'jennifer.hernandez', 'jennifer.hernandez@mycompany.com', 'J3nn_H3rN'),
+(11, 'jessica.davis', 'jessica.davis@mycompany.com', 'JessD@v1s'),
+(12, 'joseph.lopez', 'joseph.lopez@mycompany.com', 'J0s3phL0p'),
+(13, 'christopher.lewis', 'christopher.lewis@mycompany.com', 'Chr1sL3w1s'),
+(14, 'amanda.clark', 'amanda.clark@mycompany.com', 'Am@ndaC1ark'),
+(15, 'william.johnson', 'william.johnson@mycompany.com', 'W1lliamJ0hns0n'),
+(99, 'Test', 'test@gmail.com', '12345'),
+(16, 'elizabeth.roberts', 'elizabeth.roberts@mycompany.com', 'El1zabethR0b3rts'),
+(17, 'robert.walker', 'robert.walker@mycompany.com', 'R0b3rtW@lk3r'),
+(18, 'emily.allen', 'emily.allen@mycompany.com', 'Em1ly_All3n'),
+(19, 'richard.wilson', 'richard.wilson@mycompany.com', 'R1ch4rdW1ls0n'),
+(20, 'daniel.king', 'daniel.king@mycompany.com', 'D@n1elK1ng'),
+(21, 'catherine.wright', 'catherine.wright@mycompany.com', 'C@th3r1neWr1ght'),
+(22, 'charles.scott', 'charles.scott@mycompany.com', 'Ch@rlesSc0tt'),
+(23, 'maria.anderson', 'maria.anderson@mycompany.com', 'M@r1aAnd3rs0n'),
+(24, 'joseph.taylor', 'joseph.taylor@mycompany.com', 'J0s3phT@yl0r'),
+(25, 'anthony.thomas', 'anthony.thomas@mycompany.com', 'Anth0nyT0m'),
+(26, 'rachel.harris', 'rachel.harris@mycompany.com', 'R@ch3lH@rr1s'),
+(27, 'kenneth.martin', 'kenneth.martin@mycompany.com', 'K3nn3thM@rt1n'),
+(28, 'andrea.thompson', 'andrea.thompson@mycompany.com', 'Andr3aTh0mps0n'),
+(29, 'joseph.young', 'joseph.young@mycompany.com', 'J0s3phY0ung'),
+(30, 'daniel.hall', 'daniel.hall@mycompany.com', 'D@n1elH@ll'),
+(31, 'laura.davis', 'laura.davis@mycompany.com', 'L@ur@D@v1s'),
+(32, 'abraham.miller', 'abraham.miller@mycompany.com', 'Abr@h@mMill3r'),
+(33, 'sarah.carter', 'sarah.carter@mycompany.com', 'S@r@hC@rt3r');
 
 --
 -- Indexes for dumped tables
