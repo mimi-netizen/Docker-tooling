@@ -1,73 +1,125 @@
 pipeline {
-  agent {
-    kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        spec:
-          containers:
-          - name: maven
-            image: maven:alpine
-            command:
-            - cat
-            tty: true
-          - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
-          volumes:
-          - name: docker-sock
-            hostPath:
-              path: /var/run/docker.sock    
-        '''
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = "docker.io"
+        DOCKER_IMAGE = "celynekydd/tooling-app"
+        COMPOSE_FILE = "tooling.yaml"
     }
-  }
-  stages {
-    stage('Clone') {
-      steps {
-        container('maven') {
-          git branch: 'main', changelog: false, poll: false, url: 'https://mohdsabir-cloudside@bitbucket.org/mohdsabir-cloudside/java-app.git'
+
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Git branch to build')
+    }
+
+    stages {
+        stage('Initial cleanup') {
+            steps {
+                dir("${WORKSPACE}") {
+                    deleteDir()
+                }
+            }
         }
-      }
-    }  
-    stage('Build-Jar-file') {
-      steps {
-        container('maven') {
-          sh 'mvn package'
+
+        stage('SCM Checkout') {
+            steps {
+                script {
+                    // Dynamically select the branch based on the parameter
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "${params.BRANCH_NAME}"]],
+                        userRemoteConfigs: [[url: 'https://github.com/mimi-netizen/Docker-tooling.git']]
+                    ])
+                }
+            }
         }
-      }
-    }
-    stage('Build-Docker-Image') {
-      steps {
-        container('docker') {
-          sh 'docker build -t steghubregistry/java-app:latest .'
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def branchName = params.BRANCH_NAME
+                    env.TAG_NAME = branchName == 'main' ? 'latest' : "${branchName}-0.0.${env.BUILD_NUMBER}"
+
+                    // Build Docker image with a dynamic tag based on branch name
+                    sh """
+                    docker-compose -f ${COMPOSE_FILE} build
+                    """
+                }
+            }
         }
-      }
+
+        stage('Run Docker Compose') {
+            steps {
+                script {
+                    // Start services using Docker Compose
+                    sh """
+                    docker-compose -f ${COMPOSE_FILE} up -d
+                    """
+                }
+            }
+        }
+
+        stage('Smoke Test') {
+            steps {
+                script {
+                    def response
+                    retry(5) {
+                        sleep(time: 20, unit: 'SECONDS')
+                        response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:5002", returnStdout: true).trim()
+                        echo "HTTP Status Code: ${response}"
+                        if (response == '200') {
+                            echo "Smoke test passed with status code 200"
+                        } else {
+                            error "Smoke test failed with status code ${response}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Tag and Push Docker Image') {
+            steps {
+                script {
+                    // Tag and push Docker image
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh """
+                        echo "\$PASSWORD" | docker login -u "\$USERNAME" --password-stdin ${DOCKER_REGISTRY}
+                        docker tag tooling_containerization_main-frontend ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${env.TAG_NAME}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${env.TAG_NAME}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Stop and Remove Containers') {
+            steps {
+                script {
+                    // Stop and remove Docker containers
+                    sh """
+                    docker-compose -f ${COMPOSE_FILE} down
+                    """
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Clean up Docker images to save space
+                    sh """
+                    docker rmi ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${env.TAG_NAME} || true
+                    """
+                }
+            }
+        }
     }
-    stage('Login-Into-Docker') {
-      steps {
-        container('docker') {
-          sh 'docker login -u steghubregistry -p Phartion001ng'
-      }
-    }
-    }
-     stage('Push-Images-Docker-to-DockerHub') {
-      steps {
-        container('docker') {
-          sh 'docker push steghubregistry/java-app:latest'
-      }
-    }
-     }
-  }
+
     post {
-      always {
-        container('docker') {
-          sh 'docker logout'
-      }
-      }
+        always {
+            script {
+                // Logout from Docker
+                sh 'docker logout'
+            }
+        }
     }
 }
